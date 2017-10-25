@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head th:replace="_temp :: header ('Todo一覧')">
+</head>
+<body>
+
+  <div class="container">
+    <div class="page-header">
+      <h1 th:utext="#{Todo.index.title}">Todo.index.title</h1>
+      <p th:if="${emptyMessage}" th:text="${emptyMessage}">empty message</p>
+      <p th:if="${errorMessage}" th:text="${errorMessage}">error message</p>
+      <p th:if="${deleteMessage}" th:text="${deleteMessage}">delete message</p>
+    </div>
+
+    <div th:replace="_temp :: nav"></div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <form th:action="@{/Todo/search}" method="get">
+          <div class="input-group col-md-12">
+            <input type="text" name="keyword" class="form-control" placeholder="検索キーワードを入力してください" />
+            <span class="input-group-btn">
+              <input class="btn btn-default" type="submit" value="検索" />
+            </span>
+          </div>
+          <div class="input-group">
+            <input type="checkbox" id="doCheck" name="allFlg"/><label for="doCheck">実施済みも表示</label>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th th:utext="#{Todo.check}">チェック</th>
+              <th th:utext="#{Todo.id}">id</th>
+              <th th:utext="#{Todo.title}">title</th>
+              <th th:utext="#{Todo.detail}">detail</th>
+              <th th:utext="#{Todo.doFlg}">doFlg</th>
+              <th th:utext="#{Todo.update_date}">update_date</th>
+              <th>&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="item,iterStat : ${list}">
+              <td>
+                <a class="btn btn-default" th:href="@{/Todo/update/{id}(id=${item.id})}">実施</a>
+              </td>
+              <td th:text="${item.id}"></td>
+              <td th:text="${item.title}">1</td>
+              <td th:text="${item.detail}">1</td>
+              <td th:text="${item.doFlg == true}? '済' : '未'">1</td>
+              <td th:text="${item.updateDate}">1</td>
+              <td>
+                <a class="btn btn-info" th:href="@{/Todo/{id}(id=${item.id})}">詳細表示</a>
+                <a class="btn btn-danger" th:href="@{/Todo/delete/{id}(id=${item.id})}">削除</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div th:replace="_temp :: footer"></div>
+  </div>
+
+  <div th:include="_temp :: script"></div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_temp :: header ('Todo 詳細')">
+</head>
+<body>
+
+  <div class="container">
+    <div class="page-header">
+      <h1 th:utext="#{Todo.detail.title}">todo.detail.title</h1>
+    </div>
+
+    <div th:replace="_temp :: nav"></div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table" th:object="${todoDetail}">
+          <tr>
+            <th class="col-md-3 active" th:utext="#{Todo.id}">id</th>
+            <td class="col-md-9" th:text="*{id}"></td>
+          </tr>
+          <tr>
+            <th class="col-md-3 active" th:utext="#{Todo.title}">title</th>
+            <td class="col-md-9" th:text="*{title}"></td>
+          </tr>
+          <tr>
+            <th class="col-md-3 active" th:utext="#{Todo.detail}">detail</th>
+            <td class="col-md-9" th:text="*{detail}"></td>
+          </tr>
+          <tr>
+            <th class="col-md-3 active" th:utext="#{Todo.doFlg}">doFlg</th>
+            <td class="col-md-9" th:if="*{doFlg}"><p>済</p></td>
+            <td class="col-md-9" th:unless="*{doFlg}"><p>未</p></td>
+          </tr>
+          <tr>
+            <th class="col-md-3 active" th:utext="#{Todo.update_date}">update_date</th>
+            <td class="col-md-9" th:text="*{updateDate}"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div th:replace="_temp :: footer"></div>
+  </div>
+
+  <div th:include="_temp :: script"></div>
+</body>
+</html>
