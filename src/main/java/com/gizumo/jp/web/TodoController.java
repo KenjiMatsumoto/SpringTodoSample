@@ -173,7 +173,10 @@ public class TodoController {
 	public String delete(@PathVariable Integer id,
 			RedirectAttributes attributes, Model model) {
 		logger.debug("Todo + delete");
-		todoDetailRepository.delete(id);
+		TodoDetail deleteTodo = todoDetailRepository.findOne(id);
+		deleteTodo.setDeleteFlg(true);
+		deleteTodo.setUpdateDate(new Date());
+		todoDetailRepository.saveAndFlush(deleteTodo);
 		attributes.addFlashAttribute("deleteMessage", "delete ID:" + id);
 		return "redirect:/Todo";
 	}
@@ -209,7 +212,7 @@ public class TodoController {
 		TodoDetail todo = new TodoDetail();
 		todo.setTitle(form.getTitle());
 		todo.setDoFlg(false);
-		if (StringUtils.isEmpty(form.getDetail())) {
+		if (!StringUtils.isEmpty(form.getDetail())) {
 			todo.setDetail(form.getDetail());
 		}
 		todo.setUpdateDate(new Date());

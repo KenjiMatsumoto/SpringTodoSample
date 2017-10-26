@@ -9,10 +9,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TodoDetailRepository extends JpaRepository<TodoDetail, Integer> {
 
-  @Query("select a from TodoDetail a where (a.title like %:keyword% or a.detail like %:keyword%) and a.doFlg = :endFlg order by a.id asc")
+  @Query("select a from TodoDetail a where (a.title like %:keyword% or a.detail like %:keyword%) and a.doFlg = :endFlg and a.deleteFlg = false order by a.id asc")
   List<TodoDetail> findTodoDetail(@Param("keyword") String keyword, @Param("endFlg") Boolean endFlg);
-  @Query("select a from TodoDetail a where (a.title like %:keyword% or a.detail like %:keyword%) order by a.id asc")
+  @Query("select a from TodoDetail a where (a.title like %:keyword% or a.detail like %:keyword%) and a.deleteFlg = false order by a.id asc")
   List<TodoDetail> findTodoDetail(@Param("keyword") String keyword);
-  @Query("select a from TodoDetail a where a.doFlg = :flg order by a.id asc")
+  @Query("select a from TodoDetail a where a.doFlg = :flg and a.deleteFlg = false order by a.id asc")
   List<TodoDetail> findBydoFlg(@Param("flg") Boolean endFlg);
 }
