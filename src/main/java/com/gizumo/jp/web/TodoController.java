@@ -18,9 +18,11 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +32,6 @@ import org.thymeleaf.util.StringUtils;
 
 import com.gizumo.jp.repository.TodoDetail;
 import com.gizumo.jp.repository.TodoDetailRepository;
-
 
 @Controller
 public class TodoController {
@@ -43,13 +44,22 @@ public class TodoController {
 	MessageSource msg;
 
 	/**
+	 * ログイン画面表示
+	 * @return
+	 */
+	@GetMapping("/login")
+	public String login() {
+		return "/login";
+	}
+
+	/**
 	 * 初期表示
 	 * 
 	 * @param model
 	 *            モデル
 	 * @return 表示リスト
 	 */
-	@RequestMapping(value = "/Todo", method = RequestMethod.GET)
+	@GetMapping(value = "/Todo")
 	public String index(Model model) {
 		logger.debug("Todo + index");
 		List<TodoDetail> list = todoDetailRepository.findBydoFlg(false);
@@ -70,7 +80,7 @@ public class TodoController {
 	 *            表示するレコードID
 	 * @return 詳細オブジェクト
 	 */
-	@RequestMapping(value = "/Todo/{id}", method = RequestMethod.GET)
+	@GetMapping(value = "/Todo/{id}")
 	public ModelAndView detail(@PathVariable Integer id) {
 		logger.debug("Todo + detail");
 		ModelAndView mv = new ModelAndView();
@@ -89,7 +99,7 @@ public class TodoController {
 	 *            実施済みも含むか否か
 	 * @return 表示リスト
 	 */
-	@RequestMapping(value = "/Todo/search", method = RequestMethod.GET)
+	@GetMapping(value = "/Todo/search")
 	public ModelAndView search(@RequestParam String keyword,
 			@RequestParam(defaultValue = "false") Boolean allFlg) {
 		logger.debug("Todo + search");
@@ -127,7 +137,7 @@ public class TodoController {
 	 *            モデル
 	 * @return URL
 	 */
-	@RequestMapping(value = "/Todo/create", method = RequestMethod.GET)
+	@GetMapping(value = "/Todo/create")
 	public String create(TodoDetailForm form, Model model) {
 		logger.debug("Todo + create");
 		modelDump(model, "create");
@@ -143,7 +153,7 @@ public class TodoController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/Todo/save", method = RequestMethod.POST)
+	@PostMapping(value = "/Todo/save")
 	public String save(@Validated @ModelAttribute TodoDetailForm form,
 			BindingResult result, Model model) {
 		logger.debug("Todo + save");
@@ -169,7 +179,7 @@ public class TodoController {
 	 * @param model
 	 * @return リダイレクトURL
 	 */
-	@RequestMapping(value = "/Todo/delete/{id}", method = RequestMethod.GET)
+	@GetMapping(value = "/Todo/delete/{id}")
 	public String delete(@PathVariable Integer id,
 			RedirectAttributes attributes, Model model) {
 		logger.debug("Todo + delete");
@@ -190,7 +200,7 @@ public class TodoController {
 	 * @param model
 	 * @return リダイレクトURL
 	 */
-	@RequestMapping(value = "/Todo/update/{id}", method = RequestMethod.GET)
+	@GetMapping(value = "/Todo/update/{id}")
 	public String update(@PathVariable Integer id,
 			RedirectAttributes attributes, Model model) {
 		logger.debug("Todo + update");

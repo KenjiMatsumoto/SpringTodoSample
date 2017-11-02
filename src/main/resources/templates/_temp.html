@@ -23,6 +23,16 @@
     </div>
 
     <div th:fragment="footer" class="page-footer">
+        &copy; 2017 gizumo.com
+            <span sec:authorize="isAuthenticated()">
+                | Logged user: <span sec:authentication="name"></span> |
+                Roles: <span sec:authentication="principal.authorities"></span> |
+                <a th:href="@{/logout}">Sign Out</a>
+            </span>
+
+        <script type="text/javascript"
+                src="/bootstrap/js/bootstrap.min.js"></script>
+
       <div th:utext="#{footer.text}">original footer</div>
     </div>
 
